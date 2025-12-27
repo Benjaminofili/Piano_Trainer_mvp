@@ -37,10 +37,21 @@ function App() {
     setShowSummary(false);
     setHasStarted(false);
     resetSession();
+    // Don't auto-start - let user click "Start Exercise" button
+    // This ensures they're ready and can see the exercise view
+  };
+
+  const handleBackToStart = () => {
+    setShowSummary(false);
+    setHasStarted(false);
+    resetSession();
+    stopExercise();
+    // Reset audio initialization to show start screen
+    useAppStore.getState().audioActions.reset();
   };
 
   if (showSummary) {
-    return <SessionSummary onPracticeAgain={handlePracticeAgain} />;
+    return <SessionSummary onPracticeAgain={handlePracticeAgain} onBackToStart={handleBackToStart} />;
   }
 
   if (!isInitialized) {

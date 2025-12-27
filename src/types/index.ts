@@ -43,6 +43,9 @@ export interface ExerciseSettings {
   includeAccidentals: boolean;
   autoAdvance: boolean;
   autoAdvanceDelayMs: number;
+  showTargetOnKeyboard: boolean; // Whether to highlight target note on keyboard
+  displayMode: "keyboard" | "staff" | "both"; // How to display the target note
+  pianoRange: "61" | "76" | "88"; // Piano range preset (5, 6.5, or 7 octaves from C1)
 }
 
 

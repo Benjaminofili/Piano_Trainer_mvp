@@ -1,4 +1,5 @@
 import { useCallback } from "react";
+import * as React from "react";
 import { useAppStore } from "../stores/useAppStore";
 import { NoteRecognitionExercise } from "../lib/exercises/NoteRecognitionExercise";
 
@@ -28,11 +29,20 @@ export function useExercise() {
 
   const nextQuestion = useCallback(() => {
     if (exercise.isActive) {
+      // Generate a new question
       generateNextQuestion();
     } else {
+      // Just reset if not active
       exerciseActions.nextQuestion();
     }
   }, [exercise.isActive, exerciseActions, generateNextQuestion]);
+
+  // Generate question when currentQuestion becomes null and exercise is active
+  React.useEffect(() => {
+    if (exercise.isActive && !exercise.currentQuestion) {
+      generateNextQuestion();
+    }
+  }, [exercise.isActive, exercise.currentQuestion, generateNextQuestion]);
 
   return {
     mode: exercise.mode,

@@ -9,7 +9,7 @@ export function MidiConnection() {
   if (!isSupported) {
     return (
       <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-        <p className="text-sm text-yellow-800">
+        <p className="text-sm text-yellow-900 font-medium">
           MIDI is only available in Chrome/Edge desktop. Virtual keyboard is available.
         </p>
       </div>
@@ -35,7 +35,7 @@ export function MidiConnection() {
         </div>
         {availableDevices.length > 0 && (
           <div className="mt-2">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-gray-900 mb-1">
               Select Device:
             </label>
             <select

@@ -11,6 +11,12 @@ import {
   DEFAULT_RANGE_LOW,
   DEFAULT_RANGE_HIGH,
   DEFAULT_AUTO_ADVANCE_DELAY,
+  PIANO_61_LOW,
+  PIANO_61_HIGH,
+  PIANO_76_LOW,
+  PIANO_76_HIGH,
+  PIANO_88_LOW,
+  PIANO_88_HIGH,
 } from "../constants/notes";
 
 interface AppState {
@@ -24,6 +30,7 @@ interface AppState {
     initializeAudio: () => Promise<void>;
     setVolume: (volume: number) => void;
     setError: (error?: string) => void;
+    reset: () => void;
   };
 
   // MIDI slice
@@ -56,6 +63,7 @@ interface AppState {
     stopExercise: () => void;
     submitAnswer: (midiNumber: number) => boolean; // Returns true if correct
     nextQuestion: () => void;
+    generateQuestion: () => void;
     resetSession: () => void;
     updateSettings: (settings: Partial<ExerciseSettings>) => void;
   };
@@ -80,6 +88,15 @@ export const useAppStore = create<AppState>((set, get) => ({
           ...get().audio,
           status: error ? "error" : "ready",
           error,
+        },
+      });
+    },
+    reset: () => {
+      set({
+        audio: {
+          status: "uninitialized",
+          volume: 0.7,
+          error: undefined,
         },
       });
     },
@@ -138,6 +155,9 @@ export const useAppStore = create<AppState>((set, get) => ({
       includeAccidentals: true,
       autoAdvance: true,
       autoAdvanceDelayMs: DEFAULT_AUTO_ADVANCE_DELAY,
+      showTargetOnKeyboard: false, // Don't show target immediately
+      displayMode: "keyboard", // Default to keyboard, can be "staff" or "both"
+      pianoRange: "61", // Default to 61-key piano (5 octaves from C1)
     },
   },
   exerciseActions: {
@@ -177,17 +197,21 @@ export const useAppStore = create<AppState>((set, get) => ({
       });
 
       // Auto-advance if correct and enabled
+      // The hook will detect currentQuestion is null and generate a new one
       if (isCorrect && settings.autoAdvance) {
         setTimeout(() => {
-          get().exerciseActions.nextQuestion();
+          const state = get();
+          if (state.exercise.isActive) {
+            // Clear current question - hook's useEffect will generate new one
+            get().exerciseActions.nextQuestion();
+          }
         }, settings.autoAdvanceDelayMs);
       }
 
       return isCorrect;
     },
     nextQuestion: () => {
-      // Implementation will generate new question
-      // For now, just reset current question
+      // Reset current question - the hook will generate a new one
       set({
         exercise: {
           ...get().exercise,
@@ -195,6 +219,10 @@ export const useAppStore = create<AppState>((set, get) => ({
           lastAnswerCorrect: null,
         },
       });
+    },
+    generateQuestion: () => {
+      // This will be called by the hook to generate a new question
+      // The actual generation logic is in useExercise hook
     },
     resetSession: () => {
       set({

@@ -16,6 +16,7 @@ export function PianoKeyboard({
 }: PianoKeyboardProps) {
   const keyboardHandlers = usePianoKeyboard();
   const currentQuestion = useAppStore((state) => state.exercise.currentQuestion);
+  const showTargetOnKeyboard = useAppStore((state) => state.exercise.settings.showTargetOnKeyboard);
   const [pressedKeys, setPressedKeys] = useState<Set<number>>(new Set());
 
   // Update pressed keys based on active pointers
@@ -97,7 +98,7 @@ export function PianoKeyboard({
           noteName={key.noteName}
           isBlack={false}
           isPressed={pressedKeys.has(key.midiNumber)}
-          isTarget={currentQuestion?.targetMidiNumber === key.midiNumber}
+          isTarget={currentQuestion?.targetMidiNumber === key.midiNumber && showTargetOnKeyboard}
           style={{
             position: "absolute",
             left: `${key.index * whiteKeyWidth}%`,
@@ -121,7 +122,7 @@ export function PianoKeyboard({
             noteName={key.noteName}
             isBlack={true}
             isPressed={pressedKeys.has(key.midiNumber)}
-            isTarget={currentQuestion?.targetMidiNumber === key.midiNumber}
+            isTarget={currentQuestion?.targetMidiNumber === key.midiNumber && showTargetOnKeyboard}
             style={{
               position: "absolute",
               left: `${leftOffset}%`,

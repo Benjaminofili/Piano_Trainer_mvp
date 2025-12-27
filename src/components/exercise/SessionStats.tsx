@@ -13,28 +13,28 @@ export function SessionStats() {
       <h3 className="text-lg font-semibold mb-3">Session Statistics</h3>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <div className="text-sm text-gray-600">Questions</div>
-          <div className="text-2xl font-bold">{session.questionsAnswered}</div>
+          <div className="text-sm text-gray-800 font-medium">Questions</div>
+          <div className="text-2xl font-bold text-gray-900">{session.questionsAnswered}</div>
         </div>
         <div>
-          <div className="text-sm text-gray-600">Correct</div>
-          <div className="text-2xl font-bold text-green-600">{session.correctAnswers}</div>
+          <div className="text-sm text-gray-800 font-medium">Correct</div>
+          <div className="text-2xl font-bold text-green-700">{session.correctAnswers}</div>
         </div>
         <div>
-          <div className="text-sm text-gray-600">Accuracy</div>
-          <div className="text-2xl font-bold">{accuracy}%</div>
+          <div className="text-sm text-gray-800 font-medium">Accuracy</div>
+          <div className="text-2xl font-bold text-gray-900">{accuracy}%</div>
         </div>
         <div>
-          <div className="text-sm text-gray-600">Current Streak</div>
-          <div className="text-2xl font-bold text-blue-600">{session.currentStreak}</div>
+          <div className="text-sm text-gray-800 font-medium">Current Streak</div>
+          <div className="text-2xl font-bold text-blue-700">{session.currentStreak}</div>
         </div>
         <div>
-          <div className="text-sm text-gray-600">Best Streak</div>
-          <div className="text-2xl font-bold">{session.bestStreak}</div>
+          <div className="text-sm text-gray-800 font-medium">Best Streak</div>
+          <div className="text-2xl font-bold text-gray-900">{session.bestStreak}</div>
         </div>
         <div>
-          <div className="text-sm text-gray-600">Avg Response</div>
-          <div className="text-2xl font-bold">
+          <div className="text-sm text-gray-800 font-medium">Avg Response</div>
+          <div className="text-2xl font-bold text-gray-900">
             {session.averageResponseTimeMs > 0
               ? `${Math.round(session.averageResponseTimeMs)}ms`
               : "—"}

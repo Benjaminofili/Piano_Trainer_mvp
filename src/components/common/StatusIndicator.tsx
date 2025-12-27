@@ -25,7 +25,7 @@ export function StatusIndicator({ status, label }: StatusIndicatorProps) {
   return (
     <div className="flex items-center gap-2">
       <div className={`w-3 h-3 rounded-full ${statusColors[status]}`} />
-      <span className="text-sm text-gray-700">{label || statusLabels[status]}</span>
+      <span className="text-sm text-gray-900 font-medium">{label || statusLabels[status]}</span>
     </div>
   );
 }
