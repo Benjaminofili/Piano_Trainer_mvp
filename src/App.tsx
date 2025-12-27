@@ -5,6 +5,7 @@ import { SessionSummary } from "./components/screens/SessionSummary";
 import { useAudio } from "./hooks/useAudio";
 import { useNoteInput } from "./hooks/useNoteInput";
 import { useAppStore } from "./stores/useAppStore";
+import { resetAudio } from "./lib/audio/AudioManager";
 
 function App() {
   const { isInitialized } = useAudio();
@@ -37,8 +38,6 @@ function App() {
     setShowSummary(false);
     setHasStarted(false);
     resetSession();
-    // Don't auto-start - let user click "Start Exercise" button
-    // This ensures they're ready and can see the exercise view
   };
 
   const handleBackToStart = () => {
@@ -46,8 +45,8 @@ function App() {
     setHasStarted(false);
     resetSession();
     stopExercise();
-    // Reset audio initialization to show start screen
-    useAppStore.getState().audioActions.reset();
+    // Reset audio system completely - this will reset both the module state and store state
+    resetAudio();
   };
 
   if (showSummary) {
@@ -58,7 +57,7 @@ function App() {
     return <StartScreen />;
   }
 
-  return <PracticeScreen />;
+  return <PracticeScreen onBackToStart={handleBackToStart} />;
 }
 
 export default App;

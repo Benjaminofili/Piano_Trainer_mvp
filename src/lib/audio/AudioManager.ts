@@ -43,6 +43,18 @@ export async function initializeAudio(): Promise<void> {
 }
 
 /**
+ * Reset the audio system (for returning to start screen)
+ */
+export function resetAudio(): void {
+  if (synth) {
+    synth.dispose();
+    synth = null;
+  }
+  isInitialized = false;
+  useAppStore.getState().audioActions.reset();
+}
+
+/**
  * Play a note
  */
 export function playNote(midiNumber: number, velocity: number = 100): void {
@@ -89,5 +101,3 @@ export function setVolume(volume: number): void {
 export function isAudioInitialized(): boolean {
   return isInitialized;
 }
-
-
